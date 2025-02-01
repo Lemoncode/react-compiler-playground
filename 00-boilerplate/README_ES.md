@@ -33,17 +33,27 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react({
+    react(
++    {
 +      babel: {
 +        plugins: [["babel-plugin-react-compiler", { target: "19" }]],
 +      },
-    }),
++    }
+    ),
   ],
 });
 ```
 
 Y ahora arrancamos el proyecto y para ver que esta activo el plugin, si abres las dev tools (pestaña de `Components`), puedes ver que los componentes optimizados tienen unas estrellitas.
 
+```bash
+npm run dev
+```
+
 PANTALLAZO
+
+Para quitar ruido he borrado imágenes y código que no se usan, y creado un componente `Demo`.
+
+![El tab component de dev tools con las estrellitas](./content/devtools.png)
 
 Ya lo tenemos listo así que vamos a empezar a jugar con esto.
