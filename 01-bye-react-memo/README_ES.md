@@ -1,4 +1,4 @@
-# Bye useMemo
+# Bye React.memo
 
 Vamos a por el primer paso, lo primero que vamos a hacer es deshabilitar el compilador y ver lo que ocurre y como lo arreglabamos antes con `useMemo`.
 
