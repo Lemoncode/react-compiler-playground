@@ -16,15 +16,15 @@ Each example includes a breakdown of the code, step-by-step explanations, and a 
 **Description:** We explore whether the compiler can automatically optimize cases where `React.memo` was previously required.  
 ✅ The compiler successfully eliminates the need for `React.memo` in simple scenarios.
 
-### 3️⃣ [Bye useCallback](./bye_usecallback.md)
+### 3️⃣ [Bye useCallback](./02-bye-use-callback)
 **Description:** Investigating whether the compiler makes `useCallback` obsolete when optimizing function references.  
 ✅ React Compiler removes the need for `useCallback` in common cases.
 
-### 4️⃣ [Bye useMemo](./bye_usememo.md)
+### 4️⃣ [Bye useMemo](./03-bye-use-memo)
 **Description:** We test whether the compiler optimizes expensive calculations previously wrapped in `useMemo`.  
 ✅ The compiler handles simple memoization cases without requiring `useMemo`.
 
-### 5️⃣ [NO bye React.memo Predicate](./no_bye_react_memo_predicate.md)
+### 5️⃣ [NO bye React.memo Predicate](./04-no-bye-react-memo-predicate)
 **Description:** A scenario where React Compiler **does not** help—optimizing a component based on a complex conditional predicate.  
 ❌ React Compiler **cannot** optimize this case, meaning `React.memo` with a predicate is still necessary.
 
