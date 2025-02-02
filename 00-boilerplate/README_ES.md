@@ -1,7 +1,14 @@
 # Creando el proyecto
 
-Si quieres crear el proyecto desde cero, puedes seguir los siguientes pasos:
+Cuando trabajas con React y te hace falta meter optimizaciones de renderizado o incluso evitar que en algunos casos se te quede el código pillado, tienes que tirar de hooks como `useMemo` o `useCallback` y esto es un dolor, sobre todo si has tenido opción de probar nuevos frameworks como `Svelte` o `Solid`, ahí te habrás dado cuenta que esos hooks son ñapas manuales, ¿No hay forma mejor de gestionar esto? Pues sí, ... a la vez que React 19, el equipo de React, ha sacado una nueva herramienta que se llama `React Compiler` que se encarga de optimizar el código por ti y poder así olvidarte de esos hooks.
 
+En este serie de ejemplos, vamos a probar varios ejemplos de optimizacíon que usamos en nuestra formaciones y ver que tal se comporta el `React Compiler` con ellos.
+
+Cómo primer ejemplo, creamos un proyecto en blanco y le metemos soporte a React Compiler.
+
+¡ OJO ! Este ejemplos fue creado en febrero de 2025, cuando React Compiler seguía en Beta, así que si estás viendo esto en el futuro, es posible que haya cambios en la forma de instalar el compilador o incluso que ya no sea necesario, puedes mirar está [página oficial de React Compiler](https://react.dev/learn/react-compiler) para ver que tal está la cosa.
+
+Vamos a arrancar el proyecto desde cero, para eso usamos vite:
 ```bash
 npm create vite@latest mi-proyecto --template react-ts
 ```
