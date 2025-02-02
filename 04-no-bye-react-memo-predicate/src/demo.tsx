@@ -1,33 +1,39 @@
-import React from "react";
+import * as React from "react";
 
 interface Props {
-  onReset: () => void;
+  level: number;
 }
 
-const ResetValue: React.FC<Props> = (props) => {
-  console.log(
-    "Hey I'm only rendered the first time, check React.memo + callback"
-  );
+const setSatisfactionClass = (level: number) => {
+  if (level < 100) {
+    return "very-dissatisfied";
+  }
 
-  return <button onClick={props.onReset}>Reset value</button>;
+  if (level < 200) {
+    return "somewhat-dissatisfied";
+  }
+
+  if (level < 300) {
+    return "neither";
+  }
+
+  if (level < 400) {
+    return "somewhat-satisfied";
+  }
+
+  return "very-satisfied";
 };
 
-export const MyComponent = () => {
-  const [username, setUsername] = React.useState("John");
-  const [lastname, setLastname] = React.useState("Doe");
+const isSameRange = (prevValue: Props, nextValue: Props) => {
+  const prevValueClass = setSatisfactionClass(prevValue.level);
+  const nextValueClass = setSatisfactionClass(nextValue.level);
 
-  const resetNameCallback = () => {
-    setUsername("");
-  };
-
-  return (
-    <>
-      <h3>
-        {username} {lastname}
-      </h3>
-      <input value={username} onChange={(e) => setUsername(e.target.value)} />
-      <input value={lastname} onChange={(e) => setLastname(e.target.value)} />
-      <ResetValue onReset={resetNameCallback} />
-    </>
-  );
+  return prevValueClass === nextValueClass;
 };
+
+export const MyComponent = React.memo((props: Props) => {
+  const { level } = props;
+  console.log("** Face component rerender in progress...");
+
+  return <div className={setSatisfactionClass(level)} />;
+}, isSameRange);

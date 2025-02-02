@@ -56,14 +56,14 @@ export const MyComponent = () => {
 };
 ```
 
-¿Qué tenemos aquí?
+¿ Qué tenemos aquí?
 
 - Un componente que hace una supuesto calculo que se come muchos recursos.
 - Sólo queremos que se lance cuando `count` cambie.
 
 Si lo lanzamos vemos que se cambia cuando pulsamos el botón de incrementar, pero también cuando pulsamos el botón de `Toggle`.
 
-¿Como podemos evitar esto?, además de envolver el componente en `React.memo`, también podemos utilizar el hook de `useMemo`.
+¿ Como podemos evitar esto?, además de envolver el componente en `React.memo`, también podemos utilizar el hook de `useMemo`.
 
 ```diff
 const ExpensiveComponent: React.FC<{ count: number }> = ({ count }) => {

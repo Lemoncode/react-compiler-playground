@@ -1,111 +1,237 @@
-# NO by useCal
+# NO bye React.memo predicate
 
-Vamos a ver si con `useCallback` también podemos quitarnoslo de enmedio.
+Vamos con un ejemplo en el que el compilador ya no nos puede ayudar... claro que tampoco es adivino y son los `useMemo` con una condición compleja en el predicado.
 
-Empezamos como antes, deshabilitamos el compilador
+En este ejemplo vamos a hace un componente que muestre una carita más feliz o menos en base a unos rangos de valores de satisfacción.
 
-_./vite.config.ts_
+Las _caritas_ las hemos colocado debajo de la carpeta `assets` y las puedes bajar del repo si quieres hacer el ejemplo desde cero.
 
-```diff
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+Y al final de App.css vamos a añadir una clase para cada cara:
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    react(
-+     /*
-      {
-      babel: {
-        plugins: [["babel-plugin-react-compiler", { target: "19" }]],
-      },
-    }
-+    */
-    ),
-  ],
-});
-```
-
-Y ahora vamos a por el fichero `demo.tsx`, y vamos a probar el siguiente escenario:
-
-_./src/demo.tsx_
-
-```tsx
-import React from "react";
-
-interface Props {
-  onReset: () => void;
+```css
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  min-width: 800px;
 }
 
-const ResetValue: React.FC<Props> = React.memo((props) => {
-  console.log(
-    "Hey I'm only rendered the first time, check React.memo + callback"
-  );
+.very-dissatisfied {
+  width: 100%;
+  height: 80px;
+  background: url("./assets/one.png") no-repeat center;
+}
 
-  return <button onClick={props.onReset}>Reset value</button>;
-});
+.somewhat-dissatisfied {
+  width: 100%;
+  height: 80px;
+  background: url("./assets/two.png") no-repeat center;
+}
 
-export const MyComponent = () => {
-  const [username, setUsername] = React.useState("John");
-  const [lastname, setLastname] = React.useState("Doe");
+.neither {
+  width: 100%;
+  height: 80px;
+  background: url("./assets/three.png") no-repeat center;
+}
 
-  const resetNameCallback = () => {
-    setUsername("");
-  };
+.somewhat-satisfied {
+  width: 100%;
+  height: 80px;
+  background-color: aqua;
+  background: url("./assets/four.png") no-repeat center;
+}
+
+.very-satisfied {
+  width: 100%;
+  height: 80px;
+  background: url("./assets/five.png") no-repeat center;
+}
+```
+
+Vamos ahora a por el componetne de Demo, este lo vamos a implementar por pasos.
+
+_./demo.tsx_
+
+```tsx
+import * as React from "react";
+
+interface Props {
+  level: number;
+}
+
+export const MyComponent = (props: Props) => {
+  const { level } = props;
+
+  return <div className="somewhat-satisfied" />;
+};
+```
+
+Hacemos una prueba en _App.tsx_
+
+```diff
+import React from "react";
+import { MyComponent } from "./demo";
+
+export const App = () => {
 
   return (
     <>
-      <h3>
-        {username} {lastname}
-      </h3>
-      <input value={username} onChange={(e) => setUsername(e.target.value)} />
-      <input value={lastname} onChange={(e) => setLastname(e.target.value)} />
-      <ResetValue onReset={resetNameCallback} />
+-      <MyComponent />
++      <MyComponent level={100} />
     </>
   );
 };
 ```
 
-¿Qué tenemos aquí?
+Hagamos un punto de control y ejecutemos el ejemplo: comprobamos que todo funciona como esperamos.
 
-- Un component optimizado con React memo (se llama ResetValue), que se supone que solo se renderiza la primera vez.
+```bash
+npm run dev
+```
 
-- Peeroo... ojo el estamos pasando una función como prop, que se crea en cada renderizado de `MyComponent`.
-
-Si probamos verás que cada vez que cambiamos alguno de los valores de los inputs, se renderiza el componente `ResetValue` y se imprime en consola el mensaje.
-
-¿Cómo solucionabamos esto antes que no teníamos el compilador de React, con `useCallback`?
-
-Vamos a probarlo.
+Ahora es el momento de enlazar la propiedad con las correspondientes caras, vamos a crear una función para eso en demo.tsx
 
 _./src/demo.tsx_
 
 ```diff
-export const MyComponent = () => {
-  const [username, setUsername] = React.useState("John");
-  const [lastname, setLastname] = React.useState("Doe");
+import * as React from 'react';
 
--  const resetNameCallback = () => {
-+  const resetNameCallback = React.useCallback(() => {
-    setUsername("");
--  };
-+  }, []);
++ const setSatisfactionClass = (level : number) => {
++
++   if (level < 100) {
++     return "very-dissatisfied"
++   }
++
++   if (level < 200) {
++     return "somewhat-dissatisfied"
++   }
++
++   if (level < 300) {
++     return "neither"
++   }
++
++   if (level < 400) {
++     return "somewhat-satisfied"
++   }
++
++   return "very-satisfied"
++ }
+
+ interface Props {
+  level: number;
+ }
+
+export const MyComponent: React.FC<Props> = (props) => {
+
+  const { level } = props;
+
++ console.log("** Face component rerender in progress...");
 
   return (
+-    <div className="somewhat-satisfied"/>
++    <div className={setSatisfactionClass(level)}/>
+  );
+}
 ```
 
-Si ahora probamos, verás que el componente `ResetValue` ya no se renderiza cada vez que cambiamos el valor de los inputs.
+En app.tsx vamos a guardar el nivel de satisfación actual en el estado del componente, además de incluir un slider para dejar que el usuario lo actualice.
 
-Vamos a probar con el compilador de React, lo habilitamos de nuevo.
+_./src/app.tsx_
 
-_./vite.config.ts_
+```diff
++ import React from "react";
+import { MyComponent } from "./demo";
+import "./styles.css";
+
+export const App = () => {
++
++   const [satisfactionLevel, setSatisfactionLevel] = React.useState(300);
+  return (
+-    <div className="App">
++    <div className="App" style={{ display: "flex", flexDirection: "column" }}>
++       <input type="range"
++         min="0"
++         max="500"
++         value={satisfactionLevel}
++         onChange={(event) => setSatisfactionLevel(+event.target.value)}
++       />
++       <span>{satisfactionLevel}</span>
+-       <MyComponent level={100}/>
++       <MyComponent level={satisfactionLevel} />
+    </div>
+  );
+}
+```
+
+Vemos que todo sigue funcionando:
+
+```bash
+npm run dev
+```
+
+Para terminar vamos a optimizar el renderizado, el cual sólo deberíamos lanzarlo cuando cambie el rango de satisfacción:
+
+_./src/demo.tsx_
+
+```diff
+import * as React from 'react';
+
+const setSatisfactionClass = level => {
+
+  if (level < 100) {
+    return "very-dissatisfied"
+  }
+
+  if (level < 200) {
+    return "somewhat-dissatisfied"
+  }
+
+  if (level < 300) {
+    return "neither"
+  }
+
+  if (level < 400) {
+    return "somewhat-satisfied"
+  }
+
+  return "very-satisfied"
+}
+
++ const isSameRange = (prevValue : Props, nextValue : Props) => {
++
++   const prevValueClass = setSatisfactionClass(prevValue.level);
++   const nextValueClass = setSatisfactionClass(nextValue.level);
++
++   return prevValueClass === nextValueClass;
++ }
+
+- export const MyComponent: React.FC<Props> = (props : Props) => {
++ export const MyComponent: React.FC<Props> = React.memo( (props) => {
+
+  const { level } = props;
+
+  return (
+    <div className={setSatisfactionClass(level)}/>
+  );
+- }
++ }, isSameRange);
+```
+
+Si ahora ponemos un punto de parada en el método de renderizado de MyComponent, podemos ver que el renderizado sólo se lleva a cabo cuando el usuario cambio el rango de satisfacción (por ejemplo de 99 a 100).
+
+```bash
+npm run dev
+```
+
+¿ Aquí nos ayudaría el compiler? Vamos a ver...
+
+Vamos a probarlo habilitando el compilador.
 
 _./vite.config.ts_
 
 ```diff
 export default defineConfig({
   plugins: [
-    react(),
+    react(,
 -    /*{
 +   {
       babel: {
@@ -113,38 +239,13 @@ export default defineConfig({
       },
 +    }
 -    }*/
+    )
   ],
 });
 ```
 
-Y... redoble de tambores, vamos a quitar tanto el `React.memo` como el `useCallback` y ver si el compilador hace su trabajo.
-
-_./src/demo.tsx_
+Y ahora eliminamos el código de `useMemo` con predicado:
 
 ```diff
-- const ResetValue: React.FC<Props> = React.memo((props) => {
-+ const ResetValue: React.FC<Props> = (props) => {
-  console.log(
-    "Hey I'm only rendered the first time, check React.memo + callback"
-  );
 
-  return <button onClick={props.onReset}>Reset value</button>;
-- });
-+ };
-```
-
-```diff
-+  const resetNameCallback = () => {
--  const resetNameCallback = React.useCallback(() => {
-    setUsername("");
-+  };
--  }, []);
-
-  return (
-```
-
-¿Funcionará? Veamos...
-
-```bash
-npm run dev
 ```
