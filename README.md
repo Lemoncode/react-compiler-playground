@@ -43,7 +43,7 @@ Each example is self-contained and includes a **step-by-step guide** in both **E
 
 2. Navigate to the example folder you want to run:
    ```bash
-   cd bye_react_memo  # Replace with the desired example folder
+   cd 00-boilerplate  # Replace with the desired example folder
    ```
 
 3. Install dependencies:
