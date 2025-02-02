@@ -1,4 +1,4 @@
-[![🇪🇸 Leer en Español](https://img.shields.io/badge/%F0%9F%87%AA%F0%9F%87%B8-Ver%20en%20Espa%C3%B1ol-red)](./README_ES.md)
+[![🇪🇸 Leer en Español](https://img.shields.io/badge/%F0%9F%87%AA%F0%9F%87%B8-Leer%20en%20Espa%C3%B1ol-red)](./README_ES.md)
 
 # React Compiler Experiments 🚀
 
