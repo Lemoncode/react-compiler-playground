@@ -2,7 +2,7 @@
 
 # Experimentos con React Compiler 🚀
 
-¡Bienvenido a este repositorio! Aquí exploramos **React Compiler** y probamos sus optimizaciones en comparación con métodos tradicionales como `React.memo`, `useCallback` y `useMemo`. A través de varios ejemplos, analizamos si el compilador nos ayuda a eliminar optimizaciones manuales o si algunos casos aún las requieren.
+¡Bienvenido a este repositorio! Aquí exploramos **React Compiler** y probamos sus optimizaciones comparandolocon métodos tradicionales como `React.memo`, `useCallback` y `useMemo`. A través de varios ejemplos, analizamos si el compilador nos ayuda a eliminar optimizaciones manuales o si en algunos casos aún las requieren.
 
 Cada ejemplo incluye una **guía paso a paso** para ayudarte a configurarlo y entender las optimizaciones, disponible en **inglés (`README.md`)** y **español (`README_ES.md`)**.
 
@@ -43,7 +43,7 @@ Cada ejemplo es independiente e incluye una **guía paso a paso** en **inglés (
 
 2. Navega a la carpeta del ejemplo que deseas ejecutar:
    ```bash
-   cd bye_react_memo  # Reemplázalo con la carpeta del ejemplo que quieras probar
+   cd 00-boilerplate  # Reemplázalo con la carpeta del ejemplo que quieras probar
    ```
 
 3. Instala las dependencias:
