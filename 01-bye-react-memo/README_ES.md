@@ -1,6 +1,6 @@
 # Bye React.memo
 
-Vamos a por el primer paso, lo primero que vamos a hacer es deshabilitar el compilador y ver lo que ocurre y como lo arreglabamos antes con `useMemo`.
+Vamos a por el primer paso, lo primero que vamos a hacer es deshabilitar el compilador y ver lo que ocurre y como lo arreglabamos antes con `React.memo`.
 
 Lo primero, deshabilitamos el compilador:
 
@@ -89,7 +89,7 @@ export const MyComponent = () => {
 
 Si te fijas `DisplayUsername` sólo recibe como props la propiedad `name`, por lo que si cambiamos el apellido, no debería de volver a renderizarse ¿O sí? Si lo probamos... cada vez que cambiamos nombre o apellido, `displayUsername` se renderiza.
 
-¿Cómo optimizabamos esto en la era `precompilador` con `useMemo`?
+¿Cómo optimizabamos esto en la era `precompilador` con `React.memo`?
 
 ```diff
 - export const DisplayUsername = (props: Props) => {
@@ -141,3 +141,6 @@ Vamos a eliminar ese `React.memo` y vamos a ver que ocurre.
 ```
 
 Ejecutamos, abrimos la consola y.... ¡¡ funciona !!
+
+Sin duda alguna los mejores avances en librerías, son lo que te meten mejoras sin tener que ponerte a cambiar tu código :).
+
