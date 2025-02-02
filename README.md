@@ -1,3 +1,5 @@
+[![🇪🇸 Leer en Español](https://img.shields.io/badge/%F0%9F%87%AA%F0%9F%87%B8-Ver%20en%20Espa%C3%B1ol-red)](./README_ES.md)
+
 # React Compiler Experiments 🚀
 
 Welcome to this repository! Here, we explore **React Compiler** and test its optimizations against traditional methods like `React.memo`, `useCallback`, and `useMemo`. Through various examples, we analyze whether the compiler helps us eliminate manual optimizations—or if some cases still require them.
