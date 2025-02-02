@@ -1,6 +1,8 @@
 # Bye useCallback
 
-Vamos a ver si con `useCallback` también podemos quitarnoslo de enmedio.
+En ejemplo anteriores vimos como instalar el compilador de React y como optimizar un componente con `React.memo`.
+
+Vamos  ahora a ver si también podemos quitarnos de enmedio `useCallback`.
 
 Empezamos como antes, deshabilitamos el compilador
 
@@ -68,7 +70,9 @@ export const MyComponent = () => {
 
 ¿Qué tenemos aquí?
 
-- Un component optimizado con React memo (se llama ResetValue), que se supone que solo se renderiza la primera vez.
+- Un componente padre que muestra nombre y apellidos y ofrece un botón para resetear el nombre que está encapsulado en un componente.
+
+- El componente de `Reset` optimizado con React memo (se llama ResetValue), y se supone que solo se renderiza la primera vez.
 
 - Peeroo... ojo el estamos pasando una función como prop, que se crea en cada renderizado de `MyComponent`.
 
@@ -142,6 +146,10 @@ _./src/demo.tsx_
 
   return (
 ```
+
+¡ Bingo! El componente `ResetValue` ya no se renderiza cada vez que cambiamos los valores de los inputs y no hemos tenido que añadir ningúna optimización manual.
+
+¿Qué te parece si probamos con `useMemo`? En el siguiente ejemplo jugamos con `useMemo`
 
 ¿Funcionará? Veamos...
 
