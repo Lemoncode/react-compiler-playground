@@ -1,8 +1,20 @@
 # Bye React.memo
 
-Vamos a por el primer paso, lo primero que vamos a hacer es deshabilitar el compilador y ver lo que ocurre y como lo arreglabamos antes con `React.memo`.
+En el ejemplo anterior creamos un proyecto en blanco y le metimos soporte a React Compiler.
 
-Lo primero, deshabilitamos el compilador:
+Ahora vamos a ver como podemos optimizar a la antigua un componente con `React.memo` y ver que pasa si metemos el complicador en el proyecto.
+
+Antes de ponernos manos a la obra, hacemos un poco de limpia en el proyecto semilla:
+
+- Borramos de `public` y `./src/assets` imagenes que no vams a usar.
+
+- Creamos un fichero `demo.tsx` en la raíz del proyecto.
+
+- Y añadimos un componente tonto que se va a llamar `MyComponent`.
+
+Y ahora sí, vamos al lío, lo primero que vamos a hacer es deshabilitar el compilador y ver como optimizar sin su ayuda, utilizando `React.memo`.
+
+Deshabilitamos el compilador:
 
 _./vite.config.ts_
 
@@ -142,5 +154,5 @@ Vamos a eliminar ese `React.memo` y vamos a ver que ocurre.
 
 Ejecutamos, abrimos la consola y.... ¡¡ funciona !!
 
-Sin duda alguna los mejores avances en librerías, son lo que te meten mejoras sin tener que ponerte a cambiar tu código :).
+Sin duda alguna los mejores avances en librerías, son lo que nos permiten olvidarnos de ellos y centrarnos en lo que realmente importa, en este caso, en la lógica de nuestra aplicación.
 
