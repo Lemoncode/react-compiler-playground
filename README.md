@@ -8,11 +8,11 @@ Each example includes a **step-by-step guide** to help you set up and understand
 
 Each example includes a breakdown of the code, step-by-step explanations, and a conclusion about whether React Compiler successfully optimizes the scenario.
 
-### 1️⃣ [Setting Up React Compiler](./react_compiler_setup.md)
+### 1️⃣ [Setting Up React Compiler](./00-boilerplate)
 **Description:** Learn how to set up a React project with React Compiler enabled.  
 👉 Covers installation, configuration, and project initialization.
 
-### 2️⃣ [Bye React.memo](./bye_react_memo.md)
+### 2️⃣ [Bye React.memo](./01-bye-react-memo)
 **Description:** We explore whether the compiler can automatically optimize cases where `React.memo` was previously required.  
 ✅ The compiler successfully eliminates the need for `React.memo` in simple scenarios.
 
