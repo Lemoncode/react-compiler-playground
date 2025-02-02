@@ -1,6 +1,6 @@
 # Bye useMemo
 
-Ahora le toca a `useMemo`, ese hook que nos permite memorizar el resultado de una función y evitar que se recalcule en cada renderizado.
+Seguimos con esta serie de ejemplos probando el compilador de React, y ahora le toca el turno al primo hermano de `React.memo`, `useMemo` , ese hook que nos permite memorizar el resultado de una función y evitar que se recalcule en cada renderizado.
 
 Empezamos como antes, deshabilitamos el compilador
 
@@ -34,10 +34,7 @@ _./src/demo.tsx_
 import React from "react";
 
 const ExpensiveComponent: React.FC<{ count: number }> = ({ count }) => {
-  const computedValue = (() => {
-    console.log("Expensive computation");
-    return count * 2;
-  })();
+  const computedValue = count * 2;
 
   return <div>Computed Value: {computedValue}</div>;
 };
@@ -58,19 +55,17 @@ export const MyComponent = () => {
 
 ¿ Qué tenemos aquí?
 
-- Un componente que hace una supuesto calculo que se come muchos recursos.
-- Sólo queremos que se lance cuando `count` cambie.
+- Un componente padre en el qu tenemos un contador y un estado booleano.
+
+- Si pulsamos el botón de `Increment` incrementamos el contador, y esto hace que se repinte un componente hijo en el que simulamos un un cálculo complejo (bueno multplicar por dos un número no lo es), y sólo queremos que se dispare cuando cambie el contador.
 
 Si lo lanzamos vemos que se cambia cuando pulsamos el botón de incrementar, pero también cuando pulsamos el botón de `Toggle`.
 
-¿ Como podemos evitar esto?, además de envolver el componente en `React.memo`, también podemos utilizar el hook de `useMemo`.
+¿ Como podemos evitar esto?,podemos utilizar el hook de `useMemo` y envolver a esa función que tiene un cálculo complejo.
 
 ```diff
 const ExpensiveComponent: React.FC<{ count: number }> = ({ count }) => {
--  const computedValue = (() => {
--    console.log("Expensive computation...");
--    return count * 2;
--  })();
+-  const computedValue = count * 2;
 +  const computedValue = React.useMemo(() => {
 +    console.log("Expensive computation...");
 +    return count * 2;
@@ -82,7 +77,7 @@ const ExpensiveComponent: React.FC<{ count: number }> = ({ count }) => {
 
 Aquí le decimos a React que solo recalcule el valor de `computedValue` cuando `count` cambie.
 
-Y ahora si funcionaria
+Y ahora, sí funcionaria
 
 Vamos a probarlo habilitando el compilador.
 
@@ -104,7 +99,7 @@ export default defineConfig({
 });
 ```
 
-Y vamos a quitar el `useMemo`
+Y vamos a quitar el `useMemo`, en esta caso para ver si se invoca o no ese código, lo hemos envuelto en una función autoinvocada (así le podemos añadir un console.log, no haría falta hacer esto)
 
 ```diff
 const ExpensiveComponent: React.FC<{ count: number }> = ({ count }) => {
@@ -126,5 +121,10 @@ const ExpensiveComponent: React.FC<{ count: number }> = ({ count }) => {
 ```bash
 npm run dev
 ```
+
+Esto está muy bien, porque la de veces que nos olvidamos de meter un `useMemo` y se nos lía parda.
+
+Para terminar, en el siguiente ejemplo, vamos a dar una última vuelta de tuerca a `React.memo` y ver que pasa si el metemos una condición para evaluar.
+
 
 Esto está muy bien, porque la de veces que nos olvidamos de meter un `useMemo` y se nos lía parda.
