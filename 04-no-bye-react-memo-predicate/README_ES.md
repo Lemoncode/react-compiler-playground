@@ -68,6 +68,20 @@ Y al final de App.css vamos a añadir una clase para cada cara:
 }
 ```
 
+Metemos en el div principal la clase app:
+
+```diff
+function App() {
+  return (
+-    <>
++    <div className="app">
+      <MyComponent/>
++    </div>
+-    </>
+  );
+}
+```
+
 Vamos ahora a por el componetne de Demo, este lo vamos a implementar por pasos.
 
 _./demo.tsx_
@@ -95,10 +109,10 @@ import { MyComponent } from "./demo";
 export const App = () => {
 
   return (
-    <>
+    <div className="app">
 -      <MyComponent />
 +      <MyComponent level={100} />
-    </>
+    </div>
   );
 };
 ```
@@ -278,4 +292,6 @@ Y ahora eliminamos el código de `useMemo` con predicado:
 + }
 ```
 
-Aquí el compilador no nos ayuda, ¿Por qué? Porque es un caso más avanzado, ... y no es adivino.
+Aquí el compilador no nos ayuda, ¿Por qué? Porque es un caso más avanzado, ... y bueno de momento React compiler no es pitoniso.
+
+Así que, para este caso SI que es buena idea utilizar `useMemo` con un predicado complejo.
