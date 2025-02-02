@@ -2,6 +2,27 @@
 
 Vamos con un ejemplo en el que el compilador ya no nos puede ayudar... claro que tampoco es adivino y son los `useMemo` con una condición compleja en el predicado.
 
+Lo primero que vamos a hacer es comentar el compilador de React 19:
+
+_./vite.config.ts_
+
+```diff
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    react(
+-      {
++   /*{
+      babel: {
+        plugins: [["babel-plugin-react-compiler", { target: "19" }]],
+      },
+-    }
++    }*/
+    ),
+  ],
+});
+```
+
 En este ejemplo vamos a hace un componente que muestre una carita más feliz o menos en base a unos rangos de valores de satisfacción.
 
 Las _caritas_ las hemos colocado debajo de la carpeta `assets` y las puedes bajar del repo si quieres hacer el ejemplo desde cero.
@@ -247,5 +268,14 @@ export default defineConfig({
 Y ahora eliminamos el código de `useMemo` con predicado:
 
 ```diff
+- export const MyComponent = React.memo((props: Props) => {
++ export const MyComponent: React.FC<Props> = (props) => {
+  const { level } = props;
+  console.log("** Face component rerender in progress...");
 
+  return <div className={setSatisfactionClass(level)} />;
+-}, isSameRange);
++ }
 ```
+
+Aquí el compilador no nos ayuda, ¿Por qué? Porque es un caso más avanzado, ... y no es adivino.

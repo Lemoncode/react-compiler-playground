@@ -31,9 +31,9 @@ const isSameRange = (prevValue: Props, nextValue: Props) => {
   return prevValueClass === nextValueClass;
 };
 
-export const MyComponent = React.memo((props: Props) => {
+export const MyComponent: React.FC<Props> = (props) => {
   const { level } = props;
   console.log("** Face component rerender in progress...");
 
   return <div className={setSatisfactionClass(level)} />;
-}, isSameRange);
+};
